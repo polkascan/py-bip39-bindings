@@ -1,7 +1,7 @@
 # py-bip39-bindings
 Python bindings for the tiny-bip39 library: https://crates.io/crates/tiny-bip39
 
-Reference to https://github.com/LocalCoinSwap/kusama-reference-implementation for the initial work 
+Reference to Reference to https://github.com/LocalCoinSwap/kusama-reference-implementation/tree/improve-trading-tests/bindings for the initial work 
 
 ## Installation
 
