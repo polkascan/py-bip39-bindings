@@ -7,18 +7,18 @@ Reference to Reference to https://github.com/LocalCoinSwap/kusama-reference-impl
 
 ### Install from PyPI
 
-```
+```shell script
 pip install py-bip39-bindings
 ```
 
 ### Compile for local development
 
-```
+```shell script
 pip install -r requirements.txt
 maturin develop
 ```
 ### Build wheelhouses
-```
+```shell script
 pip install -r requirements.txt
 
 # Build local OS wheelhouse
@@ -28,6 +28,17 @@ maturin build
 docker build . --tag polkasource/maturin
 docker run --rm -i -v $(pwd):/io polkasource/maturin build
 
+```
+
+## Examples
+
+```python
+import binascii
+from bip39 import bip39_to_mini_secret, new_bip39
+
+mnemonic = new_bip39()
+seed_array = bip39_to_mini_secret(mnemonic, "")
+seed_hex = binascii.hexlify(bytearray(seed_array)).decode("ascii")
 ```
 
 ## License

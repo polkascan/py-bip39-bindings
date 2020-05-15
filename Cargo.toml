@@ -2,7 +2,7 @@
 name = "py-bip39-bindings"
 description = "Python bindings for tiny-bip39 RUST crate"
 authors=["openAware B.V."]
-version = "0.1.1"
+version = "0.1.2"
 repository = "https://github.com/polkascan/py-bip39-bindings"
 homepage = "https://github.com/polkascan/py-bip39-bindings"
 license = "GPL-3.0+"
