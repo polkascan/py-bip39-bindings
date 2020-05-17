@@ -34,11 +34,14 @@ docker run --rm -i -v $(pwd):/io polkasource/maturin build
 
 ```python
 import binascii
-from bip39 import bip39_to_mini_secret, new_bip39
+from bip39 import bip39_to_mini_secret, bip39_generate, ext_bip39_validate
 
-mnemonic = new_bip39()
+mnemonic = bip39_generate(12)
+ext_bip39_validate(mnemonic)
+
 seed_array = bip39_to_mini_secret(mnemonic, "")
 seed_hex = binascii.hexlify(bytearray(seed_array)).decode("ascii")
+
 ```
 
 ## License
