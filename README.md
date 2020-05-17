@@ -37,7 +37,7 @@ import binascii
 from bip39 import bip39_to_mini_secret, bip39_generate, ext_bip39_validate
 
 mnemonic = bip39_generate(12)
-ext_bip39_validate(mnemonic)
+bip39_validate(mnemonic)
 
 seed_array = bip39_to_mini_secret(mnemonic, "")
 seed_hex = binascii.hexlify(bytearray(seed_array)).decode("ascii")

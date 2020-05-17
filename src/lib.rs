@@ -28,7 +28,7 @@ pub fn bip39_generate(words: u32) -> PyResult<String> {
 }
 
 #[pyfunction]
-pub fn ext_bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
+pub fn bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
 	let mnemonic = Mnemonic::from_phrase(phrase, Language::English).unwrap();
 
 	Ok(Seed::new(&mnemonic, password)
@@ -37,7 +37,7 @@ pub fn ext_bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
 }
 
 #[pyfunction]
-pub fn ext_bip39_validate(phrase: &str) -> bool {
+pub fn bip39_validate(phrase: &str) -> bool {
 	match Mnemonic::validate(phrase, Language::English) {
 		Err(_) => false,
 		_ => true
@@ -48,7 +48,7 @@ pub fn ext_bip39_validate(phrase: &str) -> bool {
 fn bip39(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(bip39_to_mini_secret))?;
 	m.add_wrapped(wrap_pyfunction!(bip39_generate))?;
-	m.add_wrapped(wrap_pyfunction!(ext_bip39_to_seed))?;
-	m.add_wrapped(wrap_pyfunction!(ext_bip39_validate))?;
+	m.add_wrapped(wrap_pyfunction!(bip39_to_seed))?;
+	m.add_wrapped(wrap_pyfunction!(bip39_validate))?;
     Ok(())
 }
