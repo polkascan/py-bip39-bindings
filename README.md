@@ -38,7 +38,7 @@ docker run --rm -i -v $(pwd):/io polkasource/maturin build
 
 ```python
 import binascii
-from bip39 import bip39_to_mini_secret, bip39_generate, ext_bip39_validate
+from bip39 import bip39_to_mini_secret, bip39_generate, bip39_validate
 
 mnemonic = bip39_generate(12)
 bip39_validate(mnemonic)
