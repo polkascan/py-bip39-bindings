@@ -43,7 +43,10 @@ use sha2::Sha512;
 #[text_signature = "(phrase, password)"]
 pub fn bip39_to_mini_secret(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
 	let salt = format!("mnemonic{}", password);
-	let mnemonic = Mnemonic::from_phrase(phrase, Language::English).unwrap();
+	let mnemonic = match Mnemonic::from_phrase(phrase, Language::English) {
+		Ok(some_mnemomic) => some_mnemomic,
+		Err(err) => return Err(exceptions::ValueError::py_err(format!("Invalid mnemonic: {}", err.to_string())))
+	};
 	let mut result = [0u8; 64];
 
 	pbkdf2::<Hmac<Sha512>>(mnemonic.entropy(), salt.as_bytes(), 2048, &mut result);
@@ -89,7 +92,10 @@ pub fn bip39_generate(words: u32) -> PyResult<String> {
 #[pyfunction]
 #[text_signature = "(phrase, password)"]
 pub fn bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
-	let mnemonic = Mnemonic::from_phrase(phrase, Language::English).unwrap();
+	let mnemonic = match Mnemonic::from_phrase(phrase, Language::English) {
+		Ok(some_mnemomic) => some_mnemomic,
+		Err(err) => return Err(exceptions::ValueError::py_err(format!("Invalid mnemonic: {}", err.to_string())))
+	};
 
 	Ok(Seed::new(&mnemonic, password)
 		.as_bytes()[..32]

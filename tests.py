@@ -37,13 +37,19 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(bip39.bip39_validate(self.mnemonic))
 
     def test_invalidate_mnemonic(self):
-        self.assertFalse(bip39.bip39_validate("Invalid mnemonic"))
+        self.assertFalse(bip39.bip39_validate("invalid mnemonic"))
 
     def test_mini_seed(self):
         self.assertEqual(self.mini_secret, bip39.bip39_to_mini_secret(self.mnemonic, ''))
 
+    def test_invalid_mini_seed(self):
+        self.assertRaises(ValueError, bip39.bip39_to_mini_secret, 'invalid mnemonic', '')
+
     def test_seed(self):
         self.assertEqual(self.seed, bip39.bip39_to_seed(self.mnemonic, ''))
+
+    def test_invalid_seed(self):
+        self.assertRaises(ValueError, bip39.bip39_to_seed, 'invalid mnemonic', '')
 
 
 if __name__ == '__main__':
