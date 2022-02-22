@@ -32,7 +32,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_generate_mnemonic_french(self):
         mnemonic = bip39.bip39_generate(12, 'fr')
-        self.assertTrue(bip39.bip39_validate(mnemonic))
+        self.assertTrue(bip39.bip39_validate(mnemonic, 'fr'))
 
     def test_generate_invalid_mnemonic(self):
         self.assertRaises(ValueError, bip39.bip39_generate, 13)
