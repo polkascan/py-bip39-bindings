@@ -35,15 +35,22 @@ use sha2::Sha512;
 ///
 /// * `phrase` - Mnemonic phrase
 /// * `password` - Use empty string for no password
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
 /// Returns the 32-bytes mini-secret via entropy
 #[pyfunction]
-#[text_signature = "(phrase, password)"]
-pub fn bip39_to_mini_secret(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
+#[text_signature = "(phrase, password, language_code, /)"]
+pub fn bip39_to_mini_secret(phrase: &str, password: &str, language_code: Option<&str>) -> PyResult<Vec<u8>> {
 	let salt = format!("mnemonic{}", password);
-	let mnemonic = match Mnemonic::from_phrase(phrase, Language::English) {
+
+	let language = match Language::from_language_code(language_code.unwrap_or("en")) {
+		Some(language) => language,
+		None => return Err(exceptions::ValueError::py_err("Invalid language_code"))
+	};
+
+	let mnemonic = match Mnemonic::from_phrase(phrase, language) {
 		Ok(some_mnemomic) => some_mnemomic,
 		Err(err) => return Err(exceptions::ValueError::py_err(format!("Invalid mnemonic: {}", err.to_string())))
 	};
@@ -59,20 +66,26 @@ pub fn bip39_to_mini_secret(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
 /// # Arguments
 ///
 /// * `words` - The amount of words to generate, valid values are 12, 15, 18, 21 and 24
+
 ///
 /// # Returns
 ///
 /// A string containing the mnemonic words.
 #[pyfunction]
-#[text_signature = "(words)"]
-pub fn bip39_generate(words: u32) -> PyResult<String> {
+#[text_signature = "(words, language_code, /)"]
+pub fn bip39_generate(words: u32, language_code: Option<&str>) -> PyResult<String> {
+
+	let language = match Language::from_language_code(language_code.unwrap_or("en")) {
+		Some(language) => language,
+		None => return Err(exceptions::ValueError::py_err("Invalid language_code"))
+	};
 
 	let word_count_type = match MnemonicType::for_word_count(words as usize) {
 		Ok(some_work_count) => some_work_count,
 		Err(err) => return Err(exceptions::ValueError::py_err(err.to_string()))
 	};
 
-	let phrase = Mnemonic::new(word_count_type, Language::English).into_phrase();
+	let phrase = Mnemonic::new(word_count_type, language).into_phrase();
 
 	assert_eq!(phrase.split(" ").count(), words as usize);
 
@@ -85,14 +98,21 @@ pub fn bip39_generate(words: u32) -> PyResult<String> {
 ///
 /// * `phrase` - Mnemonic phrase
 /// * `password` - Use empty string for no password
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
 /// Returns a 32-bytes seed
 #[pyfunction]
-#[text_signature = "(phrase, password)"]
-pub fn bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
-	let mnemonic = match Mnemonic::from_phrase(phrase, Language::English) {
+#[text_signature = "(phrase, password, language_code, /)"]
+pub fn bip39_to_seed(phrase: &str, password: &str, language_code: Option<&str>) -> PyResult<Vec<u8>> {
+
+	let language = match Language::from_language_code(language_code.unwrap_or("en")) {
+		Some(language) => language,
+		None => return Err(exceptions::ValueError::py_err("Invalid language_code"))
+	};
+
+	let mnemonic = match Mnemonic::from_phrase(phrase, language) {
 		Ok(some_mnemomic) => some_mnemomic,
 		Err(err) => return Err(exceptions::ValueError::py_err(format!("Invalid mnemonic: {}", err.to_string())))
 	};
@@ -108,16 +128,22 @@ pub fn bip39_to_seed(phrase: &str, password: &str) -> PyResult<Vec<u8>> {
 /// # Arguments
 ///
 /// * `phrase` - Mnemonic phrase
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
 /// Returns boolean with validation result
 #[pyfunction]
-#[text_signature = "(phrase)"]
-pub fn bip39_validate(phrase: &str) -> bool {
-	match Mnemonic::validate(phrase, Language::English) {
-		Err(_) => false,
-		_ => true
+#[text_signature = "(phrase, language_code, /)"]
+pub fn bip39_validate(phrase: &str, language_code: Option<&str>) -> PyResult<bool> {
+	let language = match Language::from_language_code(language_code.unwrap_or("en")) {
+		Some(language) => language,
+		None => return Err(exceptions::ValueError::py_err("Invalid language_code"))
+	};
+
+	match Mnemonic::validate(phrase, language) {
+		Err(_) => Ok(false),
+		_ => Ok(true)
 	}
 }
 

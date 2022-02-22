@@ -21,14 +21,14 @@ pip install py-bip39-bindings
 pip install -r requirements.txt
 maturin develop
 ```
-### Build wheelhouses
+### Build wheels
 ```shell script
 pip install -r requirements.txt
 
-# Build local OS wheelhouse
+# Build local OS wheel
 maturin build
 
-# Build manylinux1 wheelhouse
+# Build manylinux1 wheel
 docker build . --tag polkasource/maturin
 docker run --rm -i -v $(pwd):/io polkasource/maturin build
 
@@ -47,6 +47,23 @@ seed_array = bip39_to_mini_secret(mnemonic, "")
 seed_hex = binascii.hexlify(bytearray(seed_array)).decode("ascii")
 
 ```
+
+## Multi-language support
+
+The following language codes are supported: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
+
+```python
+mnemonic = bip39_generate(12, 'fr')
+# 'moufle veinard tronc magasin merle amour toboggan admettre biotype décembre régalien billard'
+bip39_validate(mnemonic, 'fr')
+
+seed_array = bip39_to_mini_secret(mnemonic, "", 'fr')
+
+mnemonic = bip39_generate(12, 'zh-hans')
+# '观 敲 荣 硬 责 雪 专 宴 醇 飞 图 菌'
+```
+
+
 
 ## License
 https://github.com/polkascan/py-bip39-bindings/blob/master/LICENSE
