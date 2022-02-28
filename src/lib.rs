@@ -35,7 +35,7 @@ use sha2::Sha512;
 ///
 /// * `phrase` - Mnemonic phrase
 /// * `password` - Use empty string for no password
-/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'ja', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
@@ -98,7 +98,7 @@ pub fn bip39_generate(words: u32, language_code: Option<&str>) -> PyResult<Strin
 ///
 /// * `phrase` - Mnemonic phrase
 /// * `password` - Use empty string for no password
-/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'ja', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
@@ -128,7 +128,7 @@ pub fn bip39_to_seed(phrase: &str, password: &str, language_code: Option<&str>) 
 /// # Arguments
 ///
 /// * `phrase` - Mnemonic phrase
-/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'jap', 'ko', 'es'. Defaults to 'en'
+/// * `language_code` - The language to use, valid values are: 'en', 'zh-hans', 'zh-hant', 'fr', 'it', 'ja', 'ko', 'es'. Defaults to 'en'
 ///
 /// # Returns
 ///
