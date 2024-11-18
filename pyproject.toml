@@ -1,10 +1,10 @@
 [build-system]
-requires = ["maturin>=0.14,<0.15"]
+requires = ["maturin>=1.7.0,<1.8.0"]
 build-backend = "maturin"
 
 [project]
 name = "py-bip39-bindings"
-version = "0.1.11"
+version = "0.1.12"
 description = "Python bindings for tiny-bip39 RUST crate"
 readme = "README.md"
 requires-python = ">=3.7"
