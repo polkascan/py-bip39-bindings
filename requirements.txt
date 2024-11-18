@@ -1,5 +1,5 @@
 # Rust->Python build process
-maturin~=0.14
+maturin~=1.7
 # Dev-only
 bumpversion
 pytest
