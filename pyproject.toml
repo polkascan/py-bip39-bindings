@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "py-bip39-bindings"
-version = "0.1.13"
+version = "0.2.0"
 description = "Python bindings for tiny-bip39 RUST crate"
 readme = "README.md"
 requires-python = ">=3.8"
