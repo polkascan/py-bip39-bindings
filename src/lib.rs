@@ -22,7 +22,6 @@
 
 use pyo3::exceptions;
 use pyo3::prelude::*;
-use pyo3::{wrap_pyfunction};
 
 use ::bip39::{Mnemonic, Language, MnemonicType, Seed};
 use hmac::Hmac;
@@ -101,6 +100,7 @@ pub fn bip39_generate(words: u32, language_code: Option<&str>) -> PyResult<Strin
 /// # Returns
 ///
 /// Returns a 32-bytes seed
+///
 #[pyfunction]
 pub fn bip39_to_seed(phrase: &str, password: &str, language_code: Option<&str>) -> PyResult<Vec<u8>> {
 
@@ -144,10 +144,10 @@ pub fn bip39_validate(phrase: &str, language_code: Option<&str>) -> PyResult<boo
 }
 
 #[pymodule]
-fn bip39(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_wrapped(wrap_pyfunction!(bip39_to_mini_secret))?;
-	m.add_wrapped(wrap_pyfunction!(bip39_generate))?;
-	m.add_wrapped(wrap_pyfunction!(bip39_to_seed))?;
-	m.add_wrapped(wrap_pyfunction!(bip39_validate))?;
+fn bip39(m: &Bound<'_, PyModule>) -> PyResult<()> {
+	m.add_function(wrap_pyfunction!(bip39_to_mini_secret, m)?)?;
+	m.add_function(wrap_pyfunction!(bip39_generate, m)?)?;
+	m.add_function(wrap_pyfunction!(bip39_to_seed, m)?)?;
+	m.add_function(wrap_pyfunction!(bip39_validate, m)?)?;
     Ok(())
 }

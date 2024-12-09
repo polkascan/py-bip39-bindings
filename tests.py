@@ -52,20 +52,20 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(bip39.bip39_validate("invalid mnemonic"))
 
     def test_mini_seed(self):
-        self.assertEqual(self.mini_secret, bip39.bip39_to_mini_secret(self.mnemonic, ''))
+        self.assertEqual(bytes(self.mini_secret), bip39.bip39_to_mini_secret(self.mnemonic, ''))
 
     def test_mini_seed_zh_hans(self):
 
         mini_secret = bip39.bip39_to_mini_secret('观 敲 荣 硬 责 雪 专 宴 醇 飞 图 菌', '', 'zh-hans')
         self.assertEqual(
-            [60, 215, 169, 79, 32, 218, 203, 59, 53, 155, 18, 234, 160, 215, 97, 30, 176, 243, 224, 103, 240, 114, 170,
-             26, 4, 63, 250, 164, 88, 148, 41, 68], mini_secret)
+            bytes([60, 215, 169, 79, 32, 218, 203, 59, 53, 155, 18, 234, 160, 215, 97, 30, 176, 243, 224, 103, 240, 114, 170,
+             26, 4, 63, 250, 164, 88, 148, 41, 68]), mini_secret)
 
     def test_invalid_mini_seed(self):
         self.assertRaises(ValueError, bip39.bip39_to_mini_secret, 'invalid mnemonic', '')
 
     def test_seed(self):
-        self.assertEqual(self.seed, bip39.bip39_to_seed(self.mnemonic, ''))
+        self.assertEqual(bytes(self.seed), bip39.bip39_to_seed(self.mnemonic, ''))
 
     def test_seed_zh_hans(self):
         mnemonic = '旅 滨 昂 园 扎 点 郎 能 指 死 爬 根'
